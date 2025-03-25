@@ -12,7 +12,7 @@ root@docker:~# sudo systemctl status promtail
      CGroup: /system.slice/promtail.service
              └─1330 /usr/bin/promtail -config.file /etc/promtail/config.yml
 ```
-# cat /etc/systemd/system/promtail.service
+# sudo cat /etc/systemd/system/promtail.service
 
 ```service
 root@docker:~# cat /etc/systemd/system/promtail.service
@@ -34,7 +34,7 @@ RestartSec = 2
 WantedBy=multi-user.target
 
 ```
-# cat journalctl -u promtail.service
+# sudo journalctl -u promtail.service
 
 ```logs
 Mar 25 16:18:19 docker.asia-south1-c.c.booming-entity-448213-v0.internal systemd[1]: Started promtail.service - Promtail service.
