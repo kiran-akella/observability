@@ -1,0 +1,27 @@
+# /etc/promtail/config.yml - this is the path to the file.
+# This minimal config scrape only single log file.
+# below in the targets loki_server is updated, where we can keep Ip address as well.
+
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+- url: https://loki:8443/loki/api/v1/push
+  tls_config:
+      ca_file: /etc/promtail/my-ca.pem
+      cert_file: /etc/promtail/client.pem
+      key_file: /etc/promtail/client-key.pem
+
+scrape_configs:
+- job_name: docker_auth_logs
+  static_configs:
+  - targets:
+      - loki_server
+    labels:
+      job: auth.log_from_docker_to_loki
+      #NOTE: Need to be modified to scrape any additional logs of the system.
+      __path__: /var/log/auth.log
