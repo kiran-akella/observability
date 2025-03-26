@@ -39,6 +39,29 @@ SendSIGKILL=no
 [Install]
 WantedBy=multi-user.target
 ```
+# cat /etc/default/alloy
+
+```env
+root@k8-master-node:~# cat /etc/default/alloy
+## Path:
+## Description: Grafana Alloy settings
+## Type:        string
+## Default:     ""
+## ServiceRestart: alloy
+#
+# Command line options for Alloy.
+#
+# The configuration file holding the Alloy config.
+CONFIG_FILE="/etc/alloy/config.alloy"
+
+# User-defined arguments to pass to the run command.
+CUSTOM_ARGS=""
+# above CUSTOM_ARGS="" is default, will allow only from localhost. unhash the below line to allow from anywhere
+#CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"
+
+# Restart on system upgrade. Defaults to true.
+RESTART_ON_UPGRADE=true
+```
 
 # sudo journalctl -u alloy.service
 
