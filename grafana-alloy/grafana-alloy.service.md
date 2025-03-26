@@ -62,7 +62,32 @@ CUSTOM_ARGS=""
 # Restart on system upgrade. Defaults to true.
 RESTART_ON_UPGRADE=true
 ```
+# cat /etc/alloy/config.alloy
 
+```config
+root@k8-master-node:~# cat /etc/alloy/config.alloy
+local.file_match "tmplogs" {
+    path_targets = [{"__path__" = "/var/log/auth.log"}]
+}
+
+loki.source.file "local_files" {
+    targets    = local.file_match.tmplogs.targets
+    forward_to = [loki.write.remote_loki.receiver]
+}
+
+loki.write "remote_loki" {
+    endpoint {
+        url = "https://loki:8443/loki/api/v1/push"
+		tls_config {
+			ca_file = "/etc/alloy/certs/my-ca.pem"
+			cert_file = "/etc/alloy/certs/client.pem"
+			key_file = "/etc/alloy/certs/client-key.pem"
+			insecure_skip_verify = false
+		}
+    }
+}
+
+```
 # sudo journalctl -u alloy.service
 
 ```logs
